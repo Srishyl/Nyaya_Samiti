@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python/
+env/
+venv/
+*.env
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Streamlit/Application specific outputs
+runs/
+output_detections/
+output_signature_verification/
+output_mantra_net/
+output_vision_transformer/
+output_autoencoder_gan/
