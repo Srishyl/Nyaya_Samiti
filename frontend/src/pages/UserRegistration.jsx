@@ -2,6 +2,8 @@ import "../index.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import apiService from "../services/api";
+import Footer from "../components/Footer";
+import FloatingChatbot from "../components/FloatingChatbot";
 
 function UserRegistration() {
   const [formData, setFormData] = useState({
@@ -163,7 +165,7 @@ function UserRegistration() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F3ECDA] text-[#2b1d14]">
+    <div className="min-h-screen bg-[#F3ECDA]/80 text-[#2b1d14]">
       <header className="border-b border-[#c4ac95]/40 bg-[#94553D]">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -196,7 +198,7 @@ function UserRegistration() {
         </div>
       </header>
 
-      <main className="bg-[#F3ECDA] py-12">
+      <main className="bg-[#F3ECDA]/70 py-12">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-[#94553D] mb-4">
@@ -207,7 +209,7 @@ function UserRegistration() {
             </p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white/90 rounded-lg shadow-lg p-8">
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* Main User Information */}
               <div className="border-b border-gray-200 pb-8">
@@ -524,11 +526,8 @@ function UserRegistration() {
         </div>
       </main>
 
-      <footer className="border-t border-[#c4ac95]/40 bg-[#F3ECDA]">
-        <div className="mx-auto max-w-7xl px-4 py-8 text-sm text-[#94553D] sm:px-6 lg:px-8">
-          © {new Date().getFullYear()} NYAYA SAMITI. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
+      <FloatingChatbot />
     </div>
   );
 }

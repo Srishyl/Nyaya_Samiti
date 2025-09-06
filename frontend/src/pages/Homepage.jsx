@@ -1,9 +1,11 @@
 import '../index.css'
 import { Link } from 'react-router-dom'
+import Footer from '../components/Footer'
+import FloatingChatbot from '../components/FloatingChatbot'
 
 function Homepage() {
   return (
-    <div className="min-h-screen bg-[#F3ECDA] text-[#94553D]">
+    <div className="min-h-screen bg-[#F3ECDA]/80 text-[#94553D]">
       <header className="border-b border-[#c4ac95]/40 bg-[#94553D]">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -38,9 +40,9 @@ function Homepage() {
         </div>
       </header>
 
-      <main className="bg-[#F3ECDA]">
+      <main className="bg-[#F3ECDA]/70">
         <section className="relative isolate">
-          <div className="absolute inset-0 bg-[#F3ECDA] text-[#94553D]"></div>
+          <div className="absolute inset-0 bg-[#F3ECDA]/60 text-[#94553D]"></div>
           <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 py-24 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
             <div className="lg:col-span-7">
               <div className="inline-flex items-center rounded-full bg-[#F3ECDA]/15 px-3 py-1 text-xs text-[#F3ECDA] ring-1 ring-inset ring-[#F3ECDA]/25 backdrop-blur">
@@ -59,17 +61,12 @@ function Homepage() {
                 
               </div>
             </div>
-
-           
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-[#c4ac95]/40 bg-[#94553D]">
-        <div className="mx-auto max-w-7xl px-4 py-8 text-sm text-[#F3ECDA] sm:px-6 lg:px-8">
-          © {new Date().getFullYear()} NYAYA SAMITI. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
+      <FloatingChatbot />
     </div>
   )
 }

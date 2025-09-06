@@ -1,9 +1,11 @@
 import "../index.css";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
+import FloatingChatbot from "../components/FloatingChatbot";
 
 function Dashboard() {
   return (
-    <div className="min-h-screen bg-[#F3ECDA] text-[#2b1d14]">
+    <div className="min-h-screen bg-[#F3ECDA]/80 text-[#2b1d14]">
       <header className="border-b border-[#c4ac95]/40 bg-[#94553D]">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -27,7 +29,7 @@ function Dashboard() {
         </div>
       </header>
 
-      <main className="bg-[#F3ECDA] py-12">
+      <main className="bg-[#F3ECDA]/70 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-[#94553D] mb-4">
@@ -40,7 +42,7 @@ function Dashboard() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Quick Actions */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="bg-white/90 rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-semibold text-[#94553D] mb-4">
                 Quick Actions
               </h2>
@@ -67,7 +69,7 @@ function Dashboard() {
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="bg-white/90 rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-semibold text-[#94553D] mb-4">
                 Recent Activity
               </h2>
@@ -88,7 +90,7 @@ function Dashboard() {
             </div>
 
             {/* Statistics */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="bg-white/90 rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-semibold text-[#94553D] mb-4">
                 Statistics
               </h2>
@@ -119,7 +121,7 @@ function Dashboard() {
               Platform Features
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+              <div className="bg-white/90 rounded-lg shadow-lg p-6 text-center">
                 <div className="w-12 h-12 bg-[#94553D] rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -129,7 +131,7 @@ function Dashboard() {
                 <p className="text-sm text-gray-600">AI-powered document verification and authenticity checking</p>
               </div>
 
-              <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+              <div className="bg-white/90 rounded-lg shadow-lg p-6 text-center">
                 <div className="w-12 h-12 bg-[#FFCBA4] rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg className="w-6 h-6 text-[#94553D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -139,7 +141,7 @@ function Dashboard() {
                 <p className="text-sm text-gray-600">Streamlined legal case filing and management system</p>
               </div>
 
-              <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+              <div className="bg-white/90 rounded-lg shadow-lg p-6 text-center">
                 <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -149,7 +151,7 @@ function Dashboard() {
                 <p className="text-sm text-gray-600">Comprehensive user registration and family member management</p>
               </div>
 
-              <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+              <div className="bg-white/90 rounded-lg shadow-lg p-6 text-center">
                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -163,11 +165,8 @@ function Dashboard() {
         </div>
       </main>
 
-      <footer className="border-t border-[#c4ac95]/40 bg-[#F3ECDA]">
-        <div className="mx-auto max-w-7xl px-4 py-8 text-sm text-[#94553D] sm:px-6 lg:px-8">
-          © {new Date().getFullYear()} NYAYA SAMITI. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
+      <FloatingChatbot />
     </div>
   );
 }

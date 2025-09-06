@@ -1,6 +1,8 @@
 import "../index.css";
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
+import FloatingChatbot from "../components/FloatingChatbot";
 
 function DocumentValidation() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -49,7 +51,7 @@ function DocumentValidation() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F3ECDA] text-[#2b1d14]">
+    <div className="min-h-screen bg-[#F3ECDA]/80 text-[#2b1d14]">
       <header className="border-b border-[#c4ac95]/40 bg-[#94553D]">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -77,9 +79,9 @@ function DocumentValidation() {
         </div>
       </header>
 
-      <main className="bg-[#F3ECDA]">
+      <main className="bg-[#F3ECDA]/70">
         <section className="relative isolate">
-        <div className="absolute inset-0 bg-[#94553D]"></div>
+        <div className="absolute inset-0 bg-[#94553D]/80"></div>
         <div className="relative w-full px-4 py-16 sm:px-6 lg:px-10">
             <h1 className="text-5xl font-extrabold tracking-tight text-[#F3ECDA] sm:text-6xl">
               Document Validation
@@ -289,11 +291,8 @@ function DocumentValidation() {
         </section>
       </main>
 
-      <footer className="border-t border-[#c4ac95]/40 bg-[#F3ECDA]">
-        <div className="mx-auto max-w-7xl px-4 py-8 text-sm text-[#94553D] sm:px-6 lg:px-8">
-          © {new Date().getFullYear()} NYAYA SAMITI. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
+      <FloatingChatbot />
     </div>
   );
 }

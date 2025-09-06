@@ -1,9 +1,11 @@
 import "../index.css";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
+import FloatingChatbot from "../components/FloatingChatbot";
 
 export default function Profile() {
   return (
-    <div className="min-h-screen bg-[#F3ECDA] text-[#94553D]">
+    <div className="min-h-screen bg-[#F3ECDA]/80 text-[#94553D]">
       <header className="border-b border-[#c4ac95]/40 bg-[#94553D]">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -32,9 +34,9 @@ export default function Profile() {
         </div>
       </header>
 
-      <main className="bg-[#F3ECDA]">
+      <main className="bg-[#F3ECDA]/70">
         <section className="relative isolate">
-          <div className="absolute inset-0 bg-[#F3ECDA] text-[#94553D]"></div>
+          <div className="absolute inset-0 bg-[#F3ECDA]/60 text-[#94553D]"></div>
           <div className="relative mx-auto grid max-w-7xl  gap-12 px-4 py-24 sm:px-6 lg:lg:gap-16 lg:px-8">
           <div className="text-center items-center justify-center">
             <h1 className="text-4xl font-bold text-[#94553D] mb-4">Profile</h1>
@@ -47,11 +49,8 @@ export default function Profile() {
         </section>
       </main>
 
-      <footer className="border-t border-[#c4ac95]/40 bg-[#94553D]">
-        <div className="mx-auto pt-10 max-w-7xl px-4 py-8 text-sm text-[#F3ECDA] sm:px-6 lg:px-8 text-center items-center justify-center">
-          © {new Date().getFullYear()} NYAYA SAMITI. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
+      <FloatingChatbot />
     </div>
   );
 }
