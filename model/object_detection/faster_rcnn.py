@@ -9,7 +9,7 @@ import numpy as np
 
 # Placeholder for model and utility functions
 class StampSealDetector:
-    def __init__(self, num_classes=2, device='cuda'):  # num_classes: 1 for stamp/seal + 1 for background
+    def __init__(self, num_classes=2, device='cpu'):  # num_classes: 1 for stamp/seal + 1 for background
         self.device = device if torch.cuda.is_available() and device == 'cuda' else 'cpu'
         self.model = self._load_model(num_classes)
         self.model.to(self.device)
@@ -62,8 +62,9 @@ class StampSealDetector:
             cv2.putText(img, f"Seal: {score:.2f}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
 
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        cv2.imwrite(output_path, img)
-        print(f"Detection results saved to {output_path}")
+        # cv2.imwrite(output_path, img)
+        # print(f"Detection results saved to {output_path}")
+        return Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
 if __name__ == '__main__':
     # Example Usage (replace with actual image path)

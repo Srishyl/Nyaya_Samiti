@@ -88,12 +88,12 @@ class EXIF_CV_Hybrid:
                 tamper_indicators.append("CV: Low color standard deviation (potential uniform patch manipulation).")
 
         if tamper_indicators:
-            print(f"Tamper detected in {image_path} based on the following indicators:")
+            print(f"Tamper detected in the image based on the following indicators:")
             for indicator in tamper_indicators:
                 print(f"- {indicator}")
             return True, tamper_indicators
         else:
-            print(f"No obvious tamper indicators found in {image_path}.")
+            print(f"No obvious tamper indicators found in the image.")
             return False, []
 
 if __name__ == '__main__':

@@ -1,4 +1,3 @@
-
 import cv2
 import numpy as np
 from PIL import Image, ImageChops, ImageEnhance
@@ -9,9 +8,9 @@ from torchvision import transforms
 import os
 
 # Error Level Analysis (ELA) implementation
-def el-image(image_path, quality=90):
-    original_image = Image.open(image_path).convert("RGB")
-    temp_filename = "temp_el-image.jpg"
+def ela_image(pil_image_input, quality=90):
+    original_image = pil_image_input.convert("RGB")
+    temp_filename = "temp_el_image.jpg"
     original_image.save(temp_filename, 'JPEG', quality=quality)
     
     recompressed_image = Image.open(temp_filename)
@@ -66,7 +65,7 @@ if __name__ == '__main__':
 
     # Generate ELA image
     print(f"Generating ELA for {dummy_image_path}...")
-    ela_output_img = el-image(dummy_image_path)
+    ela_output_img = el-image(Image.open(dummy_image_path))
     ela_output_img.save("dummy_ela_output.jpg")
     print("ELA image saved to dummy_ela_output.jpg")
 
