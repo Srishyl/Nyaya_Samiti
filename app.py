@@ -24,7 +24,6 @@ from model.tamper_detection.noise_inconsistency import ela_image, ELA_CNN
 from model.tamper_detection.mantra_net import ManTraNet
 from model.tamper_detection.vision_transformers import VisionTransformerTamperDetector
 from model.tamper_detection.autoencoder_gan import Autoencoder, Discriminator
-from model.document_classifier import DocumentClassifier
 
 # --- Configuration ---
 # Tesseract OCR path (update if necessary)
@@ -249,6 +248,8 @@ def validate_passport_fields(entities):
     expiry_date_str = entities.get('date_of_expiry', '')
 
     def parse_date(date_string):
+        if not isinstance(date_string, str) or not date_string: # Handle None or empty string
+            return None
         try:
             return datetime.strptime(date_string, '%d/%m/%Y')
         except ValueError:
@@ -380,8 +381,8 @@ vit_tamper_detector = VisionTransformerTamperDetector(num_classes=2)
 autoencoder = Autoencoder()
 discriminator = Discriminator()
 # Document Classifier
-document_classifier = DocumentClassifier(num_classes=2) # 0 for Aadhaar, 1 for Passport
-class_names = {0: "Aadhaar Card", 1: "Indian Passport"}
+# document_classifier = DocumentClassifier(num_classes=2) # 0 for Aadhaar, 1 for Passport
+# class_names = {0: "Aadhaar Card", 1: "Indian Passport"}
 
 # Placeholder for loading trained model weights:
 # try:
@@ -401,10 +402,16 @@ if uploaded_file is not None:
     opencv_image = cv2.cvtColor(opencv_image, cv2.COLOR_RGB2BGR)
 
     # Document Classification
-    with st.spinner("Classifying document type..."):
-        predicted_class_idx, probabilities = document_classifier.predict(pil_image)
-        predicted_doc_type = class_names.get(predicted_class_idx, "Unknown")
-        st.success(f"Document Classified as: **{predicted_doc_type}** (Confidence: {probabilities[predicted_class_idx]:.2f})")
+    with st.spinner("Classifying document type using Gemini..."):
+        classification_prompt = """
+        Classify the document in the image as either "Indian Passport", "Aadhaar Card", or "Other Document".
+        Return only the classification string, e.g., "Indian Passport" or "Aadhaar Card". Do not include any other text.
+        """
+        classification_model = genai.GenerativeModel("gemini-2.5-flash")
+        classification_response = classification_model.generate_content([pil_image, classification_prompt])
+        
+        predicted_doc_type = classification_response.text.strip()
+        st.success(f"Document Classified as: **{predicted_doc_type}**")
         st.session_state.predicted_doc_type = predicted_doc_type
 
     st.image(pil_image, caption="Uploaded Image.", width='stretch')
@@ -436,16 +443,17 @@ if uploaded_file is not None:
         st.json(extracted_entities)
 
         format_validation_results = {}
-        if predicted_doc_type == "Indian Passport":
+        # predicted_doc_type = st.session_state.predicted_doc_type # This line was removed
+        if st.session_state.predicted_doc_type == "Indian Passport":
             format_validation_results = validate_passport_fields(extracted_entities)
             st.subheader("Passport Rule-Based Validation:")
             st.table(format_validation_results.items())
-        elif predicted_doc_type == "Aadhaar Card":
+        elif st.session_state.predicted_doc_type == "Aadhaar Card":
             format_validation_results = validate_aadhaar_fields(extracted_entities)
             st.subheader("Aadhaar Rule-Based Validation:")
             st.table(format_validation_results.items())
         else:
-            st.info(f"No specific rule-based validation for detected document type: {predicted_doc_type}.")
+            st.info(f"No specific rule-based validation for detected document type: {st.session_state.predicted_doc_type}.")
     
     # Format validation results for Gemini prompt
     formatted_validation_results = ""
@@ -534,9 +542,13 @@ if uploaded_file is not None:
     st.subheader("5. Final Document Validation (Gemini)")
     with st.spinner("Asking Gemini for final document validation and explanation..."):
         st.write(f"DEBUG: Predicted Document Type from Session State: {st.session_state.predicted_doc_type}") # Debugging line
-        if st.session_state.predicted_doc_type == "Indian Passport":
+        
+        # Use .strip() to remove any potential whitespace issues
+        predicted_doc_type_cleaned = st.session_state.predicted_doc_type.strip()
+
+        if predicted_doc_type_cleaned == "Indian Passport":
             prompt_template = PASSPORT_PROMPT_TEMPLATE
-        elif st.session_state.predicted_doc_type == "Aadhaar Card":
+        elif predicted_doc_type_cleaned == "Aadhaar Card":
             prompt_template = AADHAAR_PROMPT_TEMPLATE
         else:
             prompt_template = """
@@ -558,6 +570,8 @@ if uploaded_file is not None:
 
             Your verdict (Valid/Invalid) and detailed explanation:
             """
+        
+        st.write(f"DEBUG: Selected Prompt Template: {prompt_template[:50]}...") # Debugging line to show selected template
         
         final_gemini_prompt = prompt_template.format(
             extracted_text=gemini_cleaned_text,

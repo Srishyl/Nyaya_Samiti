@@ -9,11 +9,18 @@ import numpy as np
 
 # Placeholder for model and utility functions
 class StampSealDetector:
-    def __init__(self, num_classes=2, device='cpu'):  # num_classes: 1 for stamp/seal + 1 for background
+    def __init__(self, num_classes=3, device='cpu'):  # 0=background, 1=stamp, 2=seal
         self.device = device if torch.cuda.is_available() and device == 'cuda' else 'cpu'
         self.model = self._load_model(num_classes)
         self.model.to(self.device)
         self.model.eval()
+
+        self.class_names = {
+            1: "Stamp",
+            2: "Seal",
+            # If the model is not fine-tuned, it might still output generic foreground class IDs.
+            # We'll map any unexpected IDs to "Unknown Object".
+        }
 
     def _load_model(self, num_classes):
         # Load pre-trained Faster R-CNN model with a ResNet50-FPN backbone
@@ -26,7 +33,7 @@ class StampSealDetector:
         
         return model
 
-    def detect(self, pil_image, threshold=0.7):
+    def detect(self, pil_image, threshold=0.95):
         image_tensor = F.to_tensor(pil_image).unsqueeze(0).to(self.device)
 
         with torch.no_grad():
@@ -51,20 +58,19 @@ class StampSealDetector:
         return detections
 
     def visualize_detections(self, original_pil_image, detections, output_path="output.jpg"):
-        img_np = np.array(original_pil_image)
-        img = cv2.cvtColor(img_np, cv2.COLOR_RGB2BGR)
+        img = cv2.cvtColor(np.array(original_pil_image), cv2.COLOR_RGB2BGR)
 
         for det in detections:
-            box = det['box']
-            score = det['score']
-            x1, y1, x2, y2 = box
-            cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 2) # Red rectangle
-            cv2.putText(img, f"Seal: {score:.2f}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+            x1, y1, x2, y2 = det['box']
+            label_id, score = det['label'], det['score']
+            label_name = self.class_names.get(label_id, "Unknown Object") # Fallback for unexpected labels
+            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
+            cv2.putText(img, f"{label_name}: {score:.2f}", (x1, y1 - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
-        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        # cv2.imwrite(output_path, img)
-        # print(f"Detection results saved to {output_path}")
-        return Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        result = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        # result.save(output_path) # Removed file saving
+        return result
 
 if __name__ == '__main__':
     # Example Usage (replace with actual image path)
